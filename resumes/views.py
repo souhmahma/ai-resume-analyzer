@@ -26,10 +26,8 @@ class ResumeUploadView(APIView):
             )
 
         try:
-            # Validate file
             file_type = validate_resume_file(file)
 
-            # Create resume record
             resume = Resume.objects.create(
                 user      = request.user,
                 file      = file,
@@ -40,14 +38,12 @@ class ResumeUploadView(APIView):
                 status    = Resume.Status.PARSING,
             )
 
-            # Extract text
             try:
                 raw_text      = extract_text(resume.file.path, file_type)
                 resume.raw_text = raw_text
                 resume.status   = Resume.Status.ANALYZING
                 resume.save()
 
-                # Trigger async analysis
                 analyze_resume_task.delay(resume.id)
 
             except ValueError as e:

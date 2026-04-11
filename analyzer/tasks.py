@@ -7,8 +7,8 @@ logger = get_task_logger(__name__)
 @shared_task(bind=True, max_retries=3, default_retry_delay=60)
 def analyze_resume_task(self, resume_id):
     from resumes.models import Resume
-    from analyzer.models import ResumeAnalysis
-    from analyzer.gemini import analyze_resume
+    from .models import ResumeAnalysis
+    from .gemini import analyze_resume
 
     try:
         resume = Resume.objects.get(id=resume_id)
@@ -65,8 +65,8 @@ def analyze_resume_task(self, resume_id):
 @shared_task(bind=True, max_retries=2)
 def generate_cover_letter_task(self, resume_id, company=''):
     from resumes.models import Resume
-    from analyzer.models import ResumeAnalysis
-    from analyzer.gemini import generate_cover_letter
+    from .models import ResumeAnalysis
+    from .gemini import generate_cover_letter
 
     try:
         resume   = Resume.objects.get(id=resume_id)
@@ -90,8 +90,8 @@ def generate_cover_letter_task(self, resume_id, company=''):
 @shared_task(bind=True, max_retries=2)
 def generate_interview_questions_task(self, resume_id):
     from resumes.models import Resume
-    from analyzer.models import ResumeAnalysis
-    from analyzer.gemini import generate_interview_questions
+    from .models import ResumeAnalysis
+    from .gemini import generate_interview_questions
 
     try:
         resume   = Resume.objects.get(id=resume_id)

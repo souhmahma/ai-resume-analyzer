@@ -2,6 +2,7 @@ from rest_framework.views import exception_handler
 from rest_framework.response import Response
 from rest_framework import status
 import logging
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -57,7 +58,7 @@ def custom_exception_handler(exc, context):
             'code'   : error_info['code'],
             'title'  : error_info['title'],
             'message': error_info['message'],
-            'details': response.data if DEBUG else None,
+            'details': response.data if settings.DEBUG else None,
             'status' : status_code,
         }
 
