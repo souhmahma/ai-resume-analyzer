@@ -149,7 +149,7 @@ Overall     → Weighted average of all sections
 1. Register at /register
 2. Upload a PDF or DOCX resume at /analyze
 3. Wait 10-30 seconds for analysis
-4. View results at /results/:id
+4. View results
 5. Generate cover letter and interview questions
 ```
 
