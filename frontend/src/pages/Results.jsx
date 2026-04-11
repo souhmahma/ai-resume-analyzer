@@ -528,17 +528,22 @@ function CoverLetterSection({ resumeId, initialCoverLetter }) {
 
       {!coverLetter ? (
         <div className="space-y-3">
-          <input
-            type="text"
-            value={company}
-            onChange={(e) => setCompany(e.target.value)}
-            placeholder="Company name (optional)"
-            className="input-dark"
-          />
-          <Button onClick={generate} loading={loading} className="w-full justify-center">
-            ✍️ Generate cover letter
-          </Button>
-        </div>
+            <input
+                type="text"
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
+                placeholder="Company name"
+                className="input-dark"
+            />
+            <Button 
+                onClick={generate} 
+                loading={loading} 
+                disabled={!company.trim() || loading} 
+                className="w-full justify-center"
+            >
+                ✍️ Generate cover letter
+            </Button>
+            </div>
       ) : (
         <div className="space-y-3">
           <div className="bg-white/3 border border-white/5 rounded-xl p-4 text-white/70 text-sm leading-relaxed whitespace-pre-wrap max-h-80 overflow-y-auto">
