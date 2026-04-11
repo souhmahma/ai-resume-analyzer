@@ -32,11 +32,11 @@ An intelligent resume analysis platform powered by Google Gemini AI. Upload your
 
 ### Cover letter generation
 <!-- Replace with your production URL -->
-![Cover Letter](screenshots/Cover-letter.png)
+![Cover Letter](screenshots/Cover_letter.png)
 
 ### Interview preparation
 <!-- Replace with your production URL -->
-![Interview](screenshots/interview.png)
+![Interview](screenshots/Interview.png)
 
 ### Profile page
 <!-- Replace with your production URL -->
