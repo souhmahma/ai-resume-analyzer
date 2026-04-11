@@ -12,7 +12,7 @@ export default function Navbar() {
   const links = user ? [
     { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/analyze',   label: 'Analyze',   icon: Brain },
-    { href: '/profile',   label: 'Profile',   icon: User },
+    /*{ href: '/profile',   label: 'Profile',   icon: User },*/
   ] : []
 
   return (

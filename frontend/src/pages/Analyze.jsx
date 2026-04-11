@@ -67,7 +67,7 @@ export default function Analyze() {
       const { data } = await api.post('/resumes/upload/', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
-
+      
       // Poll for completion
       const resumeId = data.id
       const poll     = setInterval(async () => {
