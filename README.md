@@ -14,7 +14,7 @@ An intelligent resume analysis platform powered by Google Gemini AI. Upload your
 <!-- Replace with your production URL -->
 ![Landing](screenshots/Landing.png)
 ![Landing](screenshots/Landing-2.png)
-![Landing](screenshots/Landing-3.png)
+![Landing](screenshots/Landing3.png)
 ![Landing](screenshots/Landing-4.png)
 ![Landing](screenshots/Landing-5.png)
 
