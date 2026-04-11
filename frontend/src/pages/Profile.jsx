@@ -1,9 +1,9 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   User, Mail, Briefcase, Camera,
   Lock, Trash2, Save, CheckCircle,
-  Shield, AlertTriangle
+  Shield, AlertTriangle, X
 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import api from '../api/axios'
@@ -57,8 +57,12 @@ export default function Profile() {
   const [deleteLoading,   setDeleteLoading]   = useState(false)
   const [profileErrors,   setProfileErrors]   = useState({})
   const [passwordErrors,  setPasswordErrors]  = useState({})
-  const [avatarPreview,   setAvatarPreview]   = useState(user?.avatar_url || null)
+  const [avatarPreview, setAvatarPreview] = useState(null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  
+  useEffect(() => {
+    setAvatarPreview(user?.avatar_url || null)
+  }, [user])
 
   // Update profile
   const handleProfileSubmit = async (e) => {
@@ -104,26 +108,41 @@ export default function Profile() {
     if (!file) return
 
     if (file.size > 5 * 1024 * 1024) {
-      toast.error('Image must be under 5MB')
-      return
+        toast.error('Image must be under 5MB')
+        return
     }
 
-    setAvatarPreview(URL.createObjectURL(file))
+   
+    const localPreview = URL.createObjectURL(file)
+    setAvatarPreview(localPreview)
     setAvatarLoading(true)
 
     try {
-      const formData = new FormData()
-      formData.append('avatar', file)
-      const { data } = await api.patch('/auth/profile/', formData)
-      setUser(data)
-      toast.success('Avatar updated!')
+        const formData = new FormData()
+        formData.append('avatar', file)
+        const { data } = await api.patch('/auth/profile/', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        setUser(data)
+        setAvatarPreview(`${data.avatar_url}?t=${Date.now()}`)
+        toast.success('Avatar updated!')
     } catch {
-      toast.error('Failed to upload avatar.')
-      setAvatarPreview(user?.avatar_url)
+        toast.error('Failed to upload avatar.')
+        setAvatarPreview(user?.avatar_url || null)
     } finally {
-      setAvatarLoading(false)
+        setAvatarLoading(false)
     }
   }
+    const handleDeleteAvatar = async () => {
+        try {
+            const { data } = await api.delete('/auth/avatar/delete/')
+            setUser(data)
+            //setAvatarPreview(null)
+            toast.success('Avatar removed!')
+        } catch {
+            toast.error('Failed to remove avatar.')
+        }
+    }
 
   // Delete account
   const handleDeleteAccount = async () => {
@@ -159,36 +178,58 @@ export default function Profile() {
           className="glass p-6 flex items-center gap-6"
         >
           {/* Avatar */}
-          <div className="relative flex-shrink-0">
-            <div className="w-20 h-20 rounded-2xl overflow-hidden">
-              {avatarPreview ? (
-                <img
-                  src={`${avatarPreview}?t=${Date.now()}`}
-                  className="w-full h-full object-cover"
-                  alt="avatar"
-                />
-              ) : (
-                <div className="w-full h-full bg-gradient-to-br from-brand-500 to-accent-purple flex items-center justify-center text-3xl font-black text-white">
-                  {user?.first_name?.[0] || user?.username?.[0]}
-                </div>
-              )}
+        <div className="relative flex-shrink-0">
+        <div className="w-20 h-20 rounded-2xl overflow-hidden">
+            {avatarPreview ? (
+            <img
+                key={avatarPreview}
+                src={avatarPreview}
+                className="w-full h-full object-cover"
+                alt="avatar"
+            />
+            ) : (
+            <div className="w-full h-full bg-gradient-to-br from-brand-500 to-accent-purple flex items-center justify-center text-3xl font-black text-white">
+                {user?.first_name?.[0] || user?.username?.[0]}
             </div>
+            )}
+        </div>
 
-            {/* Upload button */}
+        {/* Upload button */}
+        <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => fileRef.current?.click()}
+            disabled={avatarLoading}
+            className="absolute -bottom-2 -right-2 w-8 h-8 bg-brand-500 rounded-full flex items-center justify-center border-2 border-dark-300 hover:bg-brand-600 transition"
+        >
+            {avatarLoading
+            ? <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            : <Camera size={13} className="text-white" />
+            }
+        </motion.button>
+
+        {/*Delete button */}
+        {avatarPreview && (
             <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => fileRef.current?.click()}
-              disabled={avatarLoading}
-              className="absolute -bottom-2 -right-2 w-8 h-8 bg-brand-500 rounded-full flex items-center justify-center border-2 border-dark-300 hover:bg-brand-600 transition"
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={handleDeleteAvatar}
+            className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center border-2 border-dark-300 hover:bg-red-600 transition"
             >
-              {avatarLoading
-                ? <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                : <Camera size={13} className="text-white" />
-              }
+            <X size={10} className="text-white" />
             </motion.button>
-            <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
-          </div>
+        )}
+
+        <input
+            ref={fileRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleAvatarChange}
+        />
+        </div>
 
           <div>
             <p className="text-white font-semibold text-lg">
