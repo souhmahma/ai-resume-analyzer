@@ -4,11 +4,16 @@ from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from .serializers import RegisterSerializer, UserSerializer, ChangePasswordSerializer
 from .models import User
+from accounts.tasks import send_welcome_email
+
 
 class RegisterView(generics.CreateAPIView):
     queryset           = User.objects.all()
     serializer_class   = RegisterSerializer
     permission_classes = [permissions.AllowAny]
+    def perform_create(self, serializer):
+        user = serializer.save()
+        send_welcome_email.delay(user.id)
 
 class MeView(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -48,3 +53,15 @@ class DeleteAccountView(APIView):
     def delete(self, request):
         request.user.delete()
         return Response({'message': 'Account deleted successfully.'})
+
+class DeleteAvatarView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def delete(self, request):
+        user = request.user
+        if user.avatar:
+            user.avatar.delete(save=False)
+            user.avatar = None
+            user.save()
+        serializer = UserSerializer(user, context={'request': request})
+        return Response(serializer.data)

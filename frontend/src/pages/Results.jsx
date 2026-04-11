@@ -637,13 +637,13 @@ function InterviewSection({ resumeId, initialQuestions }) {
             </div>
           )}
 
-          <textarea
+          {/*<textarea
             value={answers[i] || ''}
             onChange={(e) => setAnswers({ ...answers, [i]: e.target.value })}
             placeholder="Write your answer here to practice..."
             rows={3}
             className="input-dark text-sm resize-none"
-          />
+          />*/}
         </motion.div>
       ))}
     </div>

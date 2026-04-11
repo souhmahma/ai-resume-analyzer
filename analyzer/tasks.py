@@ -7,15 +7,15 @@ logger = get_task_logger(__name__)
 @shared_task(bind=True, max_retries=3, default_retry_delay=60)
 def analyze_resume_task(self, resume_id):
     from resumes.models import Resume
-    from .models import ResumeAnalysis
-    from .gemini import analyze_resume
+    from analyzer.models import ResumeAnalysis
+    from analyzer.gemini import analyze_resume
+    from accounts.tasks import send_analysis_complete_email
 
     try:
         resume = Resume.objects.get(id=resume_id)
         logger.info(f"Starting analysis for resume #{resume_id}")
 
         if not resume.raw_text:
-            logger.error(f"No text found for resume #{resume_id}")
             resume.status = Resume.Status.FAILED
             resume.save()
             return
@@ -43,12 +43,14 @@ def analyze_resume_task(self, resume_id):
 
         resume.status = Resume.Status.DONE
         resume.save()
+
+        send_analysis_complete_email.delay(resume_id)
+
         logger.info(f"Analysis complete for resume #{resume_id} — score: {analysis_data['overall_score']}")
-        return f"Resume #{resume_id} analyzed — score: {analysis_data['overall_score']}"
+        return f"Resume #{resume_id} analyzed"
 
     except Resume.DoesNotExist:
         logger.error(f"Resume #{resume_id} not found")
-
     except ValueError as e:
         logger.error(f"Analysis error: {e}")
         try:
@@ -56,7 +58,6 @@ def analyze_resume_task(self, resume_id):
             resume.save()
         except Exception:
             pass
-
     except Exception as e:
         logger.error(f"Unexpected error: {e}", exc_info=True)
         raise self.retry(exc=e)
