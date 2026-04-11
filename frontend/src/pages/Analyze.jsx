@@ -1,28 +1,37 @@
-import { useState, useCallback } from 'react'
-import { useNavigate }           from 'react-router-dom'
-import { useDropzone }           from 'react-dropzone'
+import { useState, useCallback, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useDropzone } from 'react-dropzone'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Upload, FileText, X, Briefcase, CheckCircle, AlertCircle } from 'lucide-react'
-import { toast } from 'react-hot-toast'
 import api from '../api/axios'
 import Button from '../components/ui/Button'
+import { useAuth } from '../context/AuthContext'
 
 const STAGES = [
-  { id: 'upload',   label: 'Uploading file',    icon: '📤', duration: 1000 },
-  { id: 'parse',    label: 'Reading content',   icon: '📖', duration: 1500 },
-  { id: 'analyze',  label: 'AI analyzing...',   icon: '🧠', duration: 2000 },
+  { id: 'upload',   label: 'Uploading file',     icon: '📤', duration: 1000 },
+  { id: 'parse',    label: 'Reading content',    icon: '📖', duration: 1500 },
+  { id: 'analyze',  label: 'AI analyzing...',    icon: '🧠', duration: 2000 },
   { id: 'scoring',  label: 'Calculating score', icon: '📊', duration: 1000 },
   { id: 'done',     label: 'Analysis complete', icon: '✅', duration: 0 },
 ]
 
 export default function Analyze() {
-  const navigate   = useNavigate()
-  const [file, setFile]         = useState(null)
+  const navigate = useNavigate()
+  const [file, setFile] = useState(null)
   const [jobTitle, setJobTitle] = useState('')
-  const [loading, setLoading]   = useState(false)
-  const [stage, setStage]       = useState(0)
-  const [error, setError]       = useState('')
+  const [loading, setLoading] = useState(false)
+  const [stage, setStage] = useState(0)
+  const [error, setError] = useState('')
+  const { user } = useAuth()
 
+  useEffect(() => {
+    if (user && user.job_title) {
+        setJobTitle(user.job_title);
+    }
+   }, [user]);
+
+  const isButtonDisabled = !file || !jobTitle.trim()
+  
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     setError('')
     if (rejectedFiles.length > 0) {
@@ -38,8 +47,8 @@ export default function Analyze() {
       'application/pdf': ['.pdf'],
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
     },
-    maxSize  : 10 * 1024 * 1024,
-    maxFiles : 1,
+    maxSize: 10 * 1024 * 1024,
+    maxFiles: 1,
   })
 
   const simulateStages = async () => {
@@ -51,15 +60,11 @@ export default function Analyze() {
   }
 
   const handleSubmit = async () => {
-    if (!file) {
-      setError('Please select a file first.')
-      return
-    }
     setLoading(true)
     setError('')
 
     const formData = new FormData()
-    formData.append('file',      file)
+    formData.append('file', file)
     formData.append('job_title', jobTitle)
 
     try {
@@ -68,33 +73,36 @@ export default function Analyze() {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
       
-      // Poll for completion
       const resumeId = data.id
-      const poll     = setInterval(async () => {
-        const { data: status } = await api.get(`/resumes/${resumeId}/status/`)
-        if (status.status === 'done') {
-          clearInterval(poll)
-          await new Promise(r => setTimeout(r, 1000))
-          navigate(`/results/${resumeId}`)
-        } else if (status.status === 'failed') {
+      const poll = setInterval(async () => {
+        try {
+          const { data: status } = await api.get(`/resumes/${resumeId}/status/`)
+          if (status.status === 'done') {
+            clearInterval(poll)
+            await new Promise(r => setTimeout(r, 1000))
+            navigate(`/results/${resumeId}`)
+          } else if (status.status === 'failed') {
+            clearInterval(poll)
+            setLoading(false)
+            setError('Analysis failed. Please try again.')
+          }
+        } catch (pollErr) {
           clearInterval(poll)
           setLoading(false)
-          setError('Analysis failed. Please try again.')
+          setError('Connection lost.')
         }
       }, 2000)
 
     } catch (err) {
       setLoading(false)
       setStage(0)
-      setError(err.response?.data?.message || 'Upload failed. Please try again.')
+      setError(err.response?.data?.message || 'Upload failed.')
     }
   }
 
   return (
     <div className="min-h-screen pt-24 pb-12 px-4">
       <div className="max-w-2xl mx-auto">
-
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -117,7 +125,6 @@ export default function Analyze() {
               exit={{ opacity: 0, y: -20 }}
               className="space-y-4"
             >
-              {/* Dropzone */}
               <div
                 {...getRootProps()}
                 className={`
@@ -132,12 +139,11 @@ export default function Analyze() {
                 `}
               >
                 <input {...getInputProps()} />
-
                 <AnimatePresence mode="wait">
                   {file ? (
                     <motion.div
                       key="file"
-                      initial={{ opacity: 0, scale: 0.8 }}
+                      initial={{ opacity: 0, scale: 0.3 }}
                       animate={{ opacity: 1, scale: 1 }}
                       className="space-y-3"
                     >
@@ -166,10 +172,7 @@ export default function Analyze() {
                       className="space-y-3"
                     >
                       <motion.div
-                        animate={isDragActive
-                          ? { scale: 1.1, rotate: 10 }
-                          : { scale: 1, rotate: 0 }
-                        }
+                        animate={isDragActive ? { scale: 1.1, rotate: 10 } : { scale: 1, rotate: 0 }}
                         className="w-16 h-16 bg-brand-500/20 rounded-2xl flex items-center justify-center mx-auto"
                       >
                         <Upload size={28} className="text-brand-400" />
@@ -178,9 +181,7 @@ export default function Analyze() {
                         <p className="text-white font-medium">
                           {isDragActive ? 'Drop it here!' : 'Drag & drop your resume'}
                         </p>
-                        <p className="text-white/40 text-sm mt-1">
-                          PDF or DOCX — max 10MB
-                        </p>
+                        <p className="text-white/40 text-sm mt-1">PDF or DOCX — max 10MB</p>
                       </div>
                       <p className="text-brand-400 text-sm">or click to browse</p>
                     </motion.div>
@@ -188,22 +189,20 @@ export default function Analyze() {
                 </AnimatePresence>
               </div>
 
-              {/* Job title input */}
               <div className="glass p-4">
                 <label className="flex items-center gap-2 text-sm text-white/60 mb-2">
                   <Briefcase size={14} />
-                  Target job title (optional — improves analysis)
+                  Target job title 
                 </label>
                 <input
                   type="text"
                   value={jobTitle}
                   onChange={(e) => setJobTitle(e.target.value)}
                   placeholder="e.g. Senior Python Developer"
-                  className="input-dark"
+                  className="input-dark w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-brand-500"
                 />
               </div>
 
-              {/* Error */}
               <AnimatePresence>
                 {error && (
                   <motion.div
@@ -220,13 +219,12 @@ export default function Analyze() {
 
               <Button
                 onClick={handleSubmit}
-                disabled={!file}
+                disabled={isButtonDisabled}
                 className="w-full justify-center py-4 text-base"
               >
                 🧠 Analyze my resume
               </Button>
             </motion.div>
-
           ) : (
             <motion.div
               key="loading"
@@ -249,7 +247,6 @@ export default function Analyze() {
                 </p>
               </div>
 
-              {/* Stages */}
               <div className="space-y-3">
                 {STAGES.map((s, i) => (
                   <motion.div
@@ -267,9 +264,7 @@ export default function Analyze() {
                   >
                     <span className="text-lg">{s.icon}</span>
                     <span className="text-sm font-medium">{s.label}</span>
-                    {i < stage && (
-                      <CheckCircle size={16} className="ml-auto" />
-                    )}
+                    {i < stage && <CheckCircle size={16} className="ml-auto" />}
                     {i === stage && (
                       <motion.div
                         animate={{ rotate: 360 }}
@@ -283,7 +278,6 @@ export default function Analyze() {
             </motion.div>
           )}
         </AnimatePresence>
-
       </div>
     </div>
   )

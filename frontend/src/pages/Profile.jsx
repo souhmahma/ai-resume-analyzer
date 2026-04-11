@@ -43,7 +43,7 @@ export default function Profile() {
     last_name : user?.last_name  || '',
     username  : user?.username   || '',
     email     : user?.email      || '',
-    bio       : user?.bio        || '',
+   /* bio       : user?.bio        || '',*/
     job_title : user?.job_title  || '',
   })
   const [passwordForm, setPasswordForm] = useState({
@@ -292,7 +292,7 @@ export default function Profile() {
               placeholder="Senior Python Developer"
               error={profileErrors.job_title?.[0]}
             />
-            <div className="space-y-1.5">
+           {/* <div className="space-y-1.5">
               <label className="block text-sm font-medium text-white/70">Bio</label>
               <textarea
                 value={profileForm.bio}
@@ -301,7 +301,7 @@ export default function Profile() {
                 rows={3}
                 className="input-dark resize-none"
               />
-            </div>
+            </div>*/}
             <Button
               type="submit"
               loading={profileLoading}
