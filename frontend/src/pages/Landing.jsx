@@ -43,7 +43,7 @@ function TypeWriter({ words }) {
       : setTimeout(() => {
           setText(word.slice(0, text.length + 1))
           if (text === word) {
-            setTimeout(() => setDeleting(true), 2000)
+            setTimeout(() => setDeleting(true), 3000)
           }
         }, 100)
     return () => clearTimeout(timeout)
