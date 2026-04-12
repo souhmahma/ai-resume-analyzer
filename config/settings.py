@@ -114,3 +114,9 @@ if not DEBUG:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+ALLOWED_HOSTS = [
+    'ai-resume-analyzer-production-8af5.up.railway.app',
+    'localhost',
+    '127.0.0.1',
+]
