@@ -129,9 +129,7 @@ Overall     → Weighted average of all sections
         ↓
 5. Scores + suggestions saved to PostgreSQL
         ↓
-6. Email notification sent to user
-        ↓
-7. React polls status → redirects to results page
+6. React polls status → redirects to results page
 ```
 
 
