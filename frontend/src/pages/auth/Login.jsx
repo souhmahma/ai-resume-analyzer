@@ -74,7 +74,7 @@ export default function Login() {
             )}
 
             <Input
-              label="Username or email"
+              label="Username"
               name="username"
               icon={Mail}
               value={form.username}
