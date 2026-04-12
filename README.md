@@ -12,7 +12,6 @@ An intelligent resume analysis platform powered by Google Gemini AI. Upload your
 ## 📸 Screenshots
 
 ### Landing page
-<!-- Replace with your production URL -->
 ![Landing](screenshots/Landing.png)
 ![Landing](screenshots/Landing-2.png)
 ![Landing](screenshots/Landing3.png)
@@ -20,24 +19,23 @@ An intelligent resume analysis platform powered by Google Gemini AI. Upload your
 ![Landing](screenshots/Landing-5.png)
 
 ### Resume upload
-<!-- Replace with your production URL -->
 ![Upload](screenshots/upload.png)
 
 ### Analysis results
-<!-- Replace with your production URL -->
 ![Results](screenshots/overview.png)
+![Results](screenshots/overview2.png)
 
 ### Dashboard
-<!-- Replace with your production URL -->
 ![Dashboard](screenshots/dashboard.png)
 
 ### Cover letter generation
-<!-- Replace with your production URL -->
-![Cover Letter](screenshots/Cover_letter.png)
+![Cover Letter](screenshots/cover-letter.png)
+![Cover Letter](screenshots/cover-letter2.png)
 
 ### Interview preparation
 <!-- Replace with your production URL -->
-![Interview](screenshots/Interview.png)
+![Interview](screenshots/interview.png)
+![Interview](screenshots/interview2.png)
 
 ### Profile page
 <!-- Replace with your production URL -->
