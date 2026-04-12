@@ -12,7 +12,7 @@ An intelligent resume analysis platform powered by Google Gemini AI. Upload your
 ## 📸 Screenshots
 
 ### Landing page
-![Landing](screenshots/Landing.png)
+![Landing](screenshots/Landing-1.png)
 ![Landing](screenshots/Landing-2.png)
 ![Landing](screenshots/Landing3.png)
 ![Landing](screenshots/Landing-4.png)
