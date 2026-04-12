@@ -171,6 +171,45 @@ celery -A config worker --loglevel=info --pool=solo
 
 ---
 
+## 🚀 Production Architecture
+
+The application is deployed across multiple cloud services for reliability and scalability.
+
+---
+
+### Infrastructure overview
+
+![Production Architecture](screenshots/schemaprod.png)
+
+---
+
+### Services
+
+#### Railway
+![Production Architecture](screenshots/railway.png)
+
+#### 🐘 PostgreSQL — Railway
+The main database hosted directly on Railway. 
+
+#### 🧠 Django App — Railway
+The Django + DRF backend deployed as a Railway service connected to the GitHub repository. Every push to `main` triggers an automatic redeploy.
+
+#### ⚡ Celery Worker — Railway
+A separate Railway service running the Celery worker on the same codebase. 
+
+#### Redis
+![Production Architecture](screenshots/redis.png)
+
+#### 🔴 Redis — Redis Cloud
+The message broker and task queue hosted on Redis Cloud (external).
+
+#### Vercel
+![Production Architecture](screenshots/vercel.png)
+
+#### ⚛️ React Frontend — Vercel
+The React frontend deployed on Vercel, connected to the Django API via environment variable.
+
+---
 ## 👤 Author
 
 **Souhail HMAHMA** — Python Developer
