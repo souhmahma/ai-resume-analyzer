@@ -76,13 +76,6 @@ Overall     → Weighted average of all sections
 - Answer textarea to practice responses
 - Hints for each question
 
-### 📧 Email Notifications
-- Styled HTML welcome email on registration
-- Analysis complete notification with score
-- Color-coded score display in email
-![Mail](screenshots/mail.png)
-
----
 
 ## 📡 API Endpoints
 
