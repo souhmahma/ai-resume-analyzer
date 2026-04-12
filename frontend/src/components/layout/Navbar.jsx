@@ -57,9 +57,7 @@ export default function Navbar() {
           {user ? (
             <div className="flex items-center gap-3 ml-4 pl-4 border-l border-white/10">
               <Link to="/profile" className="flex items-center gap-2 hover:opacity-80 transition">
-                {user.avatar_url ? (
-                  <img src={user.avatar_url} className="w-8 h-8 rounded-full object-cover border border-brand-500/30" />
-                ) : (
+                {(
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-brand-500 to-accent-purple flex items-center justify-center text-sm font-bold text-white">
                     {user.first_name?.[0] || user.username?.[0]}
                   </div>
