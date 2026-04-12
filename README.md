@@ -34,8 +34,8 @@ An intelligent resume analysis platform powered by Google Gemini AI. Upload your
 
 ### Interview preparation
 <!-- Replace with your production URL -->
-![Interview](screenshots/interview.png)
-![Interview](screenshots/interview2.png)
+![Interview](screenshots/interwiew.png)
+![Interview](screenshots/interwiew2.png)
 
 ### Profile page
 <!-- Replace with your production URL -->
