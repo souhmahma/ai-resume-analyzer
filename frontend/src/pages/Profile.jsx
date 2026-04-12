@@ -61,7 +61,7 @@ export default function Profile() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   
   useEffect(() => {
-    setAvatarPreview(user?.avatar_url || null)
+    setAvatarPreview(null)
   }, [user])
 
   // Update profile
@@ -180,47 +180,16 @@ export default function Profile() {
           {/* Avatar */}
         <div className="relative flex-shrink-0">
         <div className="w-20 h-20 rounded-2xl overflow-hidden">
-            {avatarPreview ? (
-            <img
-                key={avatarPreview}
-                src={avatarPreview}
-                className="w-full h-full object-cover"
-                alt="avatar"
-            />
-            ) : (
+            {(
             <div className="w-full h-full bg-gradient-to-br from-brand-500 to-accent-purple flex items-center justify-center text-3xl font-black text-white">
                 {user?.first_name?.[0] || user?.username?.[0]}
             </div>
             )}
         </div>
 
-        {/* Upload button */}
-        <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => fileRef.current?.click()}
-            disabled={avatarLoading}
-            className="absolute -bottom-2 -right-2 w-8 h-8 bg-brand-500 rounded-full flex items-center justify-center border-2 border-dark-300 hover:bg-brand-600 transition"
-        >
-            {avatarLoading
-            ? <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
-            : <Camera size={13} className="text-white" />
-            }
-        </motion.button>
+       
 
-        {/*Delete button */}
-        {avatarPreview && (
-            <motion.button
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={handleDeleteAvatar}
-            className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center border-2 border-dark-300 hover:bg-red-600 transition"
-            >
-            <X size={10} className="text-white" />
-            </motion.button>
-        )}
+        
 
         <input
             ref={fileRef}
