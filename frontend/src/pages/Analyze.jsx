@@ -70,7 +70,10 @@ export default function Analyze() {
     try {
       simulateStages()
       const { data } = await api.post('/resumes/upload/', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+      headers: {
+        'Content-Type': undefined, 
+      },
+      transformRequest: [(data) => data],
       })
       
       const resumeId = data.id
