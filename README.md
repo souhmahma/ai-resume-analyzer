@@ -138,8 +138,8 @@ Overall     → Weighted average of all sections
 ## 🧪 Test the app
 
 ```
-1. Register at /register
-2. Upload a PDF or DOCX resume at /analyze
+1. Register
+2. Upload a PDF or DOCX resume 
 3. Wait 10-30 seconds for analysis
 4. View results
 5. Generate cover letter and interview questions
