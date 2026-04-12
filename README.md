@@ -4,7 +4,7 @@ An intelligent resume analysis platform powered by Google Gemini AI. Upload your
 
 > **Stack** : Django · DRF · React · PostgreSQL · Redis · Celery · Google Gemini AI
 
-🌐 **Live demo** : [https://ai-resume-analyzer-souhail3.vercel.app]((https://ai-resume-analyzer-souhail3.vercel.app/))
+🌐 **Live demo** : [Live Demo](https://ai-resume-analyzer-souhail3.vercel.app)
 
 ---
 
