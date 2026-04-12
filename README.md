@@ -33,15 +33,15 @@ An intelligent resume analysis platform powered by Google Gemini AI. Upload your
 ![Cover Letter](screenshots/cover-letter2.png)
 
 ### Interview preparation
-<!-- Replace with your production URL -->
 ![Interview](screenshots/interwiew.png)
 ![Interview](screenshots/interwiew2.png)
 
 ### Profile page
-<!-- Replace with your production URL -->
 ![Profile](screenshots/profile.png)
 ![Profile](screenshots/profile2.png)
 
+### Error page
+![Profile](screenshots/error.png)
 
 ---
 
