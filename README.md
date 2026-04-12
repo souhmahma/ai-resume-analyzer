@@ -40,6 +40,8 @@ An intelligent resume analysis platform powered by Google Gemini AI. Upload your
 ### Profile page
 <!-- Replace with your production URL -->
 ![Profile](screenshots/profile.png)
+![Profile](screenshots/profile2.png)
+
 
 ---
 
