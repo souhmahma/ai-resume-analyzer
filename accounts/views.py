@@ -13,7 +13,7 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
     def perform_create(self, serializer):
         user = serializer.save()
-        send_welcome_email.delay(user.id)
+        #send_welcome_email.delay(user.id)
 
 class MeView(APIView):
     permission_classes = [permissions.IsAuthenticated]
