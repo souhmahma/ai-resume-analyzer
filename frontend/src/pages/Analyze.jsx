@@ -86,7 +86,7 @@ export default function Analyze() {
           } else if (status.status === 'failed') {
             clearInterval(poll)
             setLoading(false)
-            setError('Analysis failed. Please try again.')
+            setError('Gemini AI is currently overloaded. Try later')
           }
         } catch (pollErr) {
           clearInterval(poll)
