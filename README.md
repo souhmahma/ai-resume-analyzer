@@ -1,4 +1,4 @@
-# AI Resume Analyzer
+# ResumeAI : AI Resume Analyzer
 
 An intelligent resume analysis platform powered by Google Gemini AI. Upload your CV and get a detailed score, actionable suggestions, a personalized cover letter, and interview preparation all in seconds.
 
