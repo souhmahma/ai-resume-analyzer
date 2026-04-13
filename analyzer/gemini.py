@@ -93,7 +93,7 @@ Return ONLY the cover letter text, nothing else.
 
     try:
         response = client.models.generate_content(
-            model    = 'gemini-2.5-flash',
+            model    = 'gemini-2.5-flash-lite',
             contents = prompt,
         )
         return response.text.strip()
@@ -125,7 +125,7 @@ Return ONLY the JSON array, nothing else.
 
     try:
         response = client.models.generate_content(
-            model    = 'gemini-2.5-flash',
+            model    = 'gemini-2.5-flash-lite',
             contents = prompt,
         )
         cleaned = clean_json_response(response.text)
