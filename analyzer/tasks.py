@@ -4,7 +4,13 @@ import logging
 
 logger = get_task_logger(__name__)
 
-@shared_task(bind=True, max_retries=3, default_retry_delay=60)
+@shared_task(
+    bind=True, 
+    autoretry_for=(google.genai.errors.ServerError,), 
+    retry_backoff=True,          
+    retry_backoff_max=600,       
+    max_retries=5                
+)
 def analyze_resume_task(self, resume_id):
     from resumes.models import Resume
     from analyzer.models import ResumeAnalysis
