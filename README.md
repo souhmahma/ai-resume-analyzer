@@ -207,6 +207,6 @@ The React frontend deployed on Vercel, connected to the Django API via environme
 ---
 ## 👤 Author
 
-**Souhail HMAHMA** — Python Developer
+**Souhail HMAHMA** — FullStack Developer
 
 🌐 [souhail3.vercel.app](https://souhail3.vercel.app) · 💼 [LinkedIn](https://linkedin.com/in/souhail-hmahma) · 🐙 [GitHub](https://github.com/souhmahma)
