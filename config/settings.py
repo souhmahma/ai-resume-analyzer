@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'accounts',
     'resumes',
     'analyzer',
+    
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -79,8 +80,14 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
 }
 
-CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='http://localhost:5173').split(',')
-
+#CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='http://localhost:5173').split(',')
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "https://your-production-frontend.vercel.app", 
+]
+# On autorise TOUT temporairement
+#CORS_ALLOW_ALL_ORIGINS = True 
+#CORS_ALLOW_CREDENTIALS = True
 CELERY_BROKER_URL        = config('REDIS_URL')
 CELERY_RESULT_BACKEND    = config('REDIS_URL')
 CELERY_ACCEPT_CONTENT    = ['json']
