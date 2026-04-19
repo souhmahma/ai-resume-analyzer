@@ -159,7 +159,7 @@ celery -A config worker --loglevel=info --pool=solo
 
 ---
 
-![History](./screenshots/test.png)
+![test](./screenshots/test.png)
 
 ---
 
