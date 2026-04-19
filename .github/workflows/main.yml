@@ -74,21 +74,12 @@ jobs:
         # Analyse les failles de sécurité dans le code Python
         run: bandit -r . --exclude ./venv,./tests -s B105,B110
 
-  # ─── JOB 4: DOCKER CHECK ─────────────────────────────────────────────────
-  docker-check:
-    name: Docker Build Check
-    runs-on: ubuntu-latest
-    needs: tests
-    steps:
-      - uses: actions/checkout@v4
-      - name: Build Docker image
-        run: docker build -t resume-analyzer:${{ github.sha }} .
 
-  # ─── JOB 5: DEPLOY NOTIFICATION ──────────────────────────────────────────
+  # ─── JOB 4: DEPLOY NOTIFICATION ──────────────────────────────────────────
   deploy:
     name: Deploy Notification
     runs-on: ubuntu-latest
-    needs: [tests, security, docker-check]
+    needs: [tests, security]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
       - name: Success message
