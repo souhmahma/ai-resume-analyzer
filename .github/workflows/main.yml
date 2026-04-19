@@ -32,3 +32,4 @@ jobs:
           SECRET_KEY: "ci-secret-key"
           DEBUG: "True"
           DATABASE_URL: "sqlite:///:memory:"
+          REDIS_URL: "redis://localhost:6379/0"
