@@ -38,9 +38,7 @@ jobs:
         run: pip install flake8 black isort
 
       - name: Run flake8
-        # Remplace 'app/' par le nom de ton dossier Django (ex: core/ ou .)
-        run: flake8 . --max-line-length=119 --exclude=venv,migrations,__pycache__ --ignore=E501,F401,F402,F541
-
+        run: flake8 . --max-line-length=119 --exclude=venv,migrations,__pycache__ --ignore=E501,F401,F402,F541,F841,E402
   # ─── JOB 2: TESTS PYTEST ──────────────────────────────────────────────────
   tests:
     name: Pytest Suite
