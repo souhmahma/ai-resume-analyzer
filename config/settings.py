@@ -108,7 +108,7 @@ if not DEBUG:
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 ALLOWED_HOSTS = [
-    "ai-resume-analyzer-production-d759.up.railway.app",
+    "ai-resume-analyzer-production-24cd.up.railway.app",
     "localhost",
     "127.0.0.1",
 ]
