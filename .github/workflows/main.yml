@@ -33,3 +33,4 @@ jobs:
           DEBUG: "True"
           DATABASE_URL: "sqlite:///:memory:"
           REDIS_URL: "redis://localhost:6379/0"
+          GEMINI_API_KEY: "dummy-key-for-testing"
