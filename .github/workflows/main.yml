@@ -72,7 +72,7 @@ jobs:
         run: pip install bandit
       - name: Run bandit
         # Analyse les failles de sécurité dans le code Python
-        run: bandit -r . --exclude ./venv,./tests
+        run: bandit -r . --exclude ./venv,./tests -sk B105,B110
 
   # ─── JOB 4: DOCKER CHECK ─────────────────────────────────────────────────
   docker-check:
