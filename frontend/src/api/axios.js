@@ -2,7 +2,7 @@ import axios from 'axios'
 import toast from 'react-hot-toast'
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://ai-resume-analyzer-production-8af5.up.railway.app/api',
+  baseURL: import.meta.env.VITE_API_URL || 'https://ai-resume-analyzer-production-d759.up.railway.app/api',
 })
 
 api.interceptors.request.use((config) => {
