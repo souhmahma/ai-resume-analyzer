@@ -135,18 +135,6 @@ Overall     → Weighted average of all sections
 
 ---
 
-## 🧪 Test the app
-
-```
-1. Register
-2. Upload a PDF or DOCX resume 
-3. Wait 10-30 seconds for analysis
-4. View results
-5. Generate cover letter and interview questions
-```
-
----
-
 ## ⚙️ Local installation
 
 ```bash
@@ -166,6 +154,12 @@ npm run dev
 # Celery
 celery -A config worker --loglevel=info --pool=solo
 ```
+---
+## 🧪 Tests
+
+---
+
+![History](./screenshots/test.png)
 
 ---
 
