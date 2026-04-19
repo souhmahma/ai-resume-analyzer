@@ -5,20 +5,23 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 def send_styled_email(subject, to_email, html_content):
-    text_content = html_content.replace('<br>', '\n').replace('</p>', '\n')
+    text_content = html_content.replace("<br>", "\n").replace("</p>", "\n")
     msg = EmailMultiAlternatives(
-        subject    = subject,
-        body       = text_content,
-        from_email = settings.DEFAULT_FROM_EMAIL,
-        to         = [to_email],
+        subject=subject,
+        body=text_content,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=[to_email],
     )
     msg.attach_alternative(html_content, "text/html")
     msg.send()
 
+
 @shared_task
 def send_welcome_email(user_id):
     from accounts.models import User
+
     try:
         user = User.objects.get(id=user_id)
         name = user.first_name or user.username
@@ -165,9 +168,9 @@ def send_welcome_email(user_id):
 </html>
 """
         send_styled_email(
-            subject     = '👋 Welcome to ResumeAI — Let\'s analyze your resume!',
-            to_email    = user.email,
-            html_content = html,
+            subject="👋 Welcome to ResumeAI — Let's analyze your resume!",
+            to_email=user.email,
+            html_content=html,
         )
         return f"Welcome email sent to {user.email}"
     except Exception as e:
@@ -177,36 +180,37 @@ def send_welcome_email(user_id):
 @shared_task
 def send_analysis_complete_email(resume_id):
     from resumes.models import Resume
+
     try:
         resume = Resume.objects.get(id=resume_id)
-        score  = resume.analysis.overall_score if hasattr(resume, 'analysis') else None
-        name   = resume.user.first_name or resume.user.username
+        score = resume.analysis.overall_score if hasattr(resume, "analysis") else None
+        name = resume.user.first_name or resume.user.username
 
         # Score config
         if score and score >= 85:
-            score_emoji  = '🎉'
-            score_color  = '#22c55e'
-            score_label  = 'Excellent!'
-            score_msg    = 'Outstanding resume! You\'re well positioned for your job search.'
-            gradient     = 'linear-gradient(135deg,#22c55e,#16a34a)'
+            score_emoji = "🎉"
+            score_color = "#22c55e"
+            score_label = "Excellent!"
+            score_msg = "Outstanding resume! You're well positioned for your job search."
+            gradient = "linear-gradient(135deg,#22c55e,#16a34a)"
         elif score and score >= 70:
-            score_emoji  = '👍'
-            score_color  = '#6366f1'
-            score_label  = 'Good'
-            score_msg    = 'Solid resume! A few improvements could make it even stronger.'
-            gradient     = 'linear-gradient(135deg,#6366f1,#a855f7)'
+            score_emoji = "👍"
+            score_color = "#6366f1"
+            score_label = "Good"
+            score_msg = "Solid resume! A few improvements could make it even stronger."
+            gradient = "linear-gradient(135deg,#6366f1,#a855f7)"
         elif score and score >= 50:
-            score_emoji  = '📈'
-            score_color  = '#f59e0b'
-            score_label  = 'Average'
-            score_msg    = 'Room for improvement. Check our suggestions to boost your score.'
-            gradient     = 'linear-gradient(135deg,#f59e0b,#ef4444)'
+            score_emoji = "📈"
+            score_color = "#f59e0b"
+            score_label = "Average"
+            score_msg = "Room for improvement. Check our suggestions to boost your score."
+            gradient = "linear-gradient(135deg,#f59e0b,#ef4444)"
         else:
-            score_emoji  = '💪'
-            score_color  = '#ef4444'
-            score_label  = 'Needs work'
-            score_msg    = 'Don\'t worry! Follow our suggestions to significantly improve your resume.'
-            gradient     = 'linear-gradient(135deg,#ef4444,#dc2626)'
+            score_emoji = "💪"
+            score_color = "#ef4444"
+            score_label = "Needs work"
+            score_msg = "Don't worry! Follow our suggestions to significantly improve your resume."
+            gradient = "linear-gradient(135deg,#ef4444,#dc2626)"
 
         html = f"""
 <!DOCTYPE html>
@@ -358,9 +362,9 @@ def send_analysis_complete_email(resume_id):
 </html>
 """
         send_styled_email(
-            subject      = f'{score_emoji} Your resume score is {score}% — View your analysis',
-            to_email     = resume.user.email,
-            html_content = html,
+            subject=f"{score_emoji} Your resume score is {score}% — View your analysis",
+            to_email=resume.user.email,
+            html_content=html,
         )
         return f"Analysis email sent to {resume.user.email}"
     except Exception as e:

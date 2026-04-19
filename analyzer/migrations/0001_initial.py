@@ -9,32 +9,37 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('resumes', '0001_initial'),
+        ("resumes", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='ResumeAnalysis',
+            name="ResumeAnalysis",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('overall_score', models.PositiveIntegerField(default=0)),
-                ('content_score', models.PositiveIntegerField(default=0)),
-                ('structure_score', models.PositiveIntegerField(default=0)),
-                ('skills_score', models.PositiveIntegerField(default=0)),
-                ('experience_score', models.PositiveIntegerField(default=0)),
-                ('language_score', models.PositiveIntegerField(default=0)),
-                ('summary', models.TextField(blank=True)),
-                ('strengths', models.JSONField(default=list)),
-                ('weaknesses', models.JSONField(default=list)),
-                ('suggestions', models.JSONField(default=list)),
-                ('keywords_found', models.JSONField(default=list)),
-                ('keywords_missing', models.JSONField(default=list)),
-                ('skills_detected', models.JSONField(default=list)),
-                ('cover_letter', models.TextField(blank=True)),
-                ('interview_questions', models.JSONField(default=list)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('resume', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='analysis', to='resumes.resume')),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("overall_score", models.PositiveIntegerField(default=0)),
+                ("content_score", models.PositiveIntegerField(default=0)),
+                ("structure_score", models.PositiveIntegerField(default=0)),
+                ("skills_score", models.PositiveIntegerField(default=0)),
+                ("experience_score", models.PositiveIntegerField(default=0)),
+                ("language_score", models.PositiveIntegerField(default=0)),
+                ("summary", models.TextField(blank=True)),
+                ("strengths", models.JSONField(default=list)),
+                ("weaknesses", models.JSONField(default=list)),
+                ("suggestions", models.JSONField(default=list)),
+                ("keywords_found", models.JSONField(default=list)),
+                ("keywords_missing", models.JSONField(default=list)),
+                ("skills_detected", models.JSONField(default=list)),
+                ("cover_letter", models.TextField(blank=True)),
+                ("interview_questions", models.JSONField(default=list)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                (
+                    "resume",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE, related_name="analysis", to="resumes.resume"
+                    ),
+                ),
             ],
         ),
     ]

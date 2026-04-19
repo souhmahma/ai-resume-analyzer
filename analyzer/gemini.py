@@ -9,12 +9,14 @@ logger = logging.getLogger(__name__)
 
 client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
+
 def clean_json_response(text):
-    text = re.sub(r'```json\s*', '', text)
-    text = re.sub(r'```\s*',     '', text)
+    text = re.sub(r"```json\s*", "", text)
+    text = re.sub(r"```\s*", "", text)
     return text.strip()
 
-def analyze_resume(raw_text, job_title=''):
+
+def analyze_resume(raw_text, job_title=""):
     job_context = f"for a {job_title} position" if job_title else ""
 
     prompt = f"""
@@ -53,17 +55,21 @@ Return ONLY the JSON, nothing else.
 
     try:
         response = client.models.generate_content(
-            model    = 'gemini-2.5-flash-lite',
-            contents = prompt,
+            model="gemini-2.5-flash-lite",
+            contents=prompt,
         )
 
         cleaned = clean_json_response(response.text)
-        data    = json.loads(cleaned)
+        data = json.loads(cleaned)
 
         # Clamp scores to 0-100
         score_fields = [
-            'overall_score', 'content_score', 'structure_score',
-            'skills_score', 'experience_score', 'language_score'
+            "overall_score",
+            "content_score",
+            "structure_score",
+            "skills_score",
+            "experience_score",
+            "language_score",
         ]
         for field in score_fields:
             data[field] = max(0, min(100, int(data.get(field, 0))))
@@ -78,7 +84,7 @@ Return ONLY the JSON, nothing else.
         raise ValueError(f"AI analysis failed: {str(e)}")
 
 
-def generate_cover_letter(raw_text, job_title='', company=''):
+def generate_cover_letter(raw_text, job_title="", company=""):
     prompt = f"""
 Write a professional cover letter based on this resume.
 {"Target position: " + job_title if job_title else ""}
@@ -93,8 +99,8 @@ Return ONLY the cover letter text, nothing else.
 
     try:
         response = client.models.generate_content(
-            model    = 'gemini-2.5-flash-lite',
-            contents = prompt,
+            model="gemini-2.5-flash-lite",
+            contents=prompt,
         )
         return response.text.strip()
     except Exception as e:
@@ -102,7 +108,7 @@ Return ONLY the cover letter text, nothing else.
         raise ValueError("Could not generate cover letter.")
 
 
-def generate_interview_questions(raw_text, job_title=''):
+def generate_interview_questions(raw_text, job_title=""):
     prompt = f"""
 Generate 10 realistic interview questions based on this resume.
 {"Position: " + job_title if job_title else ""}
@@ -125,11 +131,11 @@ Return ONLY the JSON array, nothing else.
 
     try:
         response = client.models.generate_content(
-            model    = 'gemini-2.5-flash-lite',
-            contents = prompt,
+            model="gemini-2.5-flash-lite",
+            contents=prompt,
         )
         cleaned = clean_json_response(response.text)
-        data    = json.loads(cleaned)
+        data = json.loads(cleaned)
         return data if isinstance(data, list) else []
     except Exception as e:
         logger.error(f"Interview questions error: {e}")

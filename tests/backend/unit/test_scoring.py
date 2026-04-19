@@ -2,6 +2,7 @@
 Unit tests — ai-resume-analyzer backend (Django REST Framework)
 Tests models, scoring logic, and utility functions.
 """
+
 import pytest
 from unittest.mock import patch, MagicMock
 
@@ -47,15 +48,17 @@ class TestResumeTextExtraction:
 
     def test_extract_email_from_text(self):
         import re
+
         text = "Contact me at john.doe@example.com for more info"
-        pattern = r'[\w\.-]+@[\w\.-]+\.\w+'
+        pattern = r"[\w\.-]+@[\w\.-]+\.\w+"
         match = re.findall(pattern, text)
         assert "john.doe@example.com" in match
 
     def test_extract_phone_number(self):
         import re
+
         text = "Phone: +33 6 12 34 56 78"
-        pattern = r'[\+\d][\d\s\-\.]{8,15}'
+        pattern = r"[\+\d][\d\s\-\.]{8,15}"
         match = re.findall(pattern, text)
         assert len(match) > 0
 
@@ -69,7 +72,8 @@ class TestResumeTextExtraction:
 
     def test_empty_text_returns_empty(self):
         import re
-        pattern = r'[\w\.-]+@[\w\.-]+\.\w+'
+
+        pattern = r"[\w\.-]+@[\w\.-]+\.\w+"
         assert re.findall(pattern, "") == []
 
 
