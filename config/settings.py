@@ -57,12 +57,7 @@ TEMPLATES = [
 DATABASES = {
     'default': dj_database_url.parse(config('DATABASE_URL'))
 }
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': BASE_DIR / 'db.sqlite3',
-#    }
-#}
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -80,11 +75,8 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
 }
 
-#CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='http://localhost:5173').split(',')
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "https://your-production-frontend.vercel.app", 
-]
+CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='http://localhost:5173').split(',')
+
 # On autorise TOUT temporairement
 #CORS_ALLOW_ALL_ORIGINS = True 
 #CORS_ALLOW_CREDENTIALS = True
