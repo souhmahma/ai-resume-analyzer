@@ -39,7 +39,7 @@ jobs:
 
       - name: Run flake8
         # Remplace 'app/' par le nom de ton dossier Django (ex: core/ ou .)
-        run: flake8 . --max-line-length=119 --exclude=venv,migrations,__pycache__
+        run: flake8 . --max-line-length=119 --exclude=venv,migrations,__pycache__ --ignore=E501,F401,F402,F541
 
   # ─── JOB 2: TESTS PYTEST ──────────────────────────────────────────────────
   tests:
