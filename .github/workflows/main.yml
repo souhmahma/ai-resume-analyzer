@@ -62,8 +62,8 @@ jobs:
           pip install pytest pytest-django pytest-cov
 
       - name: Run tests with coverage
-        
         env:
+          DJANGO_SETTINGS_MODULE: config.settings
           PYTHONPATH: ${{ github.workspace }}/backend
         run: |
           pytest tests/ --cov=backend --cov-report=xml
