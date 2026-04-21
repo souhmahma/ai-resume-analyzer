@@ -9,14 +9,12 @@ on:
 env:
   PYTHON_VERSION: "3.11"
   DATABASE_URL: "sqlite:///:memory:"
-  SECRET_KEY: "ci-test-key-static-12345"
-  STRIPE_SECRET_KEY: "sk_test_dummy"
-  STRIPE_WEBHOOK_SECRET: "whsec_dummy"
   REDIS_URL: "redis://localhost:6379/0"
   EMAIL_HOST: "smtp.gmail.com"
   EMAIL_PORT: "587"
   EMAIL_HOST_USER: "test@gmail.com"
   EMAIL_HOST_PASSWORD: "password"
+  GEMINI_API_KEY: "mock_key"
   DEBUG: "True"
 
 jobs:
