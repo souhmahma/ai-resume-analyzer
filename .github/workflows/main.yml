@@ -8,6 +8,7 @@ on:
 
 env:
   PYTHON_VERSION: "3.11"
+  DATABASE_URL: "sqlite:///:memory:"
   SECRET_KEY: "ci-test-key-static-12345"
   STRIPE_SECRET_KEY: "sk_test_dummy"
   STRIPE_WEBHOOK_SECRET: "whsec_dummy"
@@ -63,6 +64,8 @@ jobs:
 
       - name: Run tests with coverage
         env:
+          # On maintient les variables de contexte ici pour Pytest
+          DATABASE_URL: "sqlite:///:memory:"
           DJANGO_SETTINGS_MODULE: config.settings
           PYTHONPATH: ${{ github.workspace }}/backend
         run: |
@@ -88,4 +91,4 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
       - name: Success message
-        run: echo "🚀 Tests passés avec succès pour le dossier externe /tests !"
+        run: echo "🚀 Tests passés avec succès. DATABASE_URL est bien configurée !"
