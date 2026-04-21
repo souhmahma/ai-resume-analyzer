@@ -43,7 +43,8 @@ class GenerateCoverLetterView(APIView):
 
         if not hasattr(resume, "analysis"):
             return Response(
-                {"error": True, "message": "Resume must be analyzed first."}, status=status.HTTP_400_BAD_REQUEST
+                {"error": True, "message": "Resume must be analyzed first."},
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         if resume.analysis.cover_letter:
@@ -93,7 +94,8 @@ class GenerateInterviewQuestionsView(APIView):
 
         if not hasattr(resume, "analysis"):
             return Response(
-                {"error": True, "message": "Resume must be analyzed first."}, status=status.HTTP_400_BAD_REQUEST
+                {"error": True, "message": "Resume must be analyzed first."},
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         if resume.analysis.interview_questions:
@@ -145,7 +147,8 @@ class RegenerateAnalysisView(APIView):
 
         if not resume.raw_text:
             return Response(
-                {"error": True, "message": "No text found in this resume."}, status=status.HTTP_400_BAD_REQUEST
+                {"error": True, "message": "No text found in this resume."},
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         resume.status = Resume.Status.ANALYZING

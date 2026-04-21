@@ -48,7 +48,16 @@ class ResumeListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Resume
-        fields = ["id", "filename", "file_type", "status", "job_title", "has_analysis", "score", "created_at"]
+        fields = [
+            "id",
+            "filename",
+            "file_type",
+            "status",
+            "job_title",
+            "has_analysis",
+            "score",
+            "created_at",
+        ]
 
     def get_has_analysis(self, obj):
         return hasattr(obj, "analysis")

@@ -84,7 +84,9 @@ class TestCoverLetterGeneration:
     def test_cover_letter_contains_job_title(self):
         job_title = "Senior Python Developer"
         # Mock the AI response
-        mock_letter = f"Dear Hiring Manager,\nI am applying for the {job_title} position..."
+        mock_letter = (
+            f"Dear Hiring Manager,\nI am applying for the {job_title} position..."
+        )
         assert job_title in mock_letter
 
     def test_cover_letter_is_non_empty(self):

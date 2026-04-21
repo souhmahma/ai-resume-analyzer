@@ -20,11 +20,15 @@ class TestResumeUpload:
     @pytest.mark.django_db
     @patch("resumes.views.extract_text")
     @patch("resumes.views.analyze_resume_task.delay")
-    def test_upload_pdf_success(self, mock_task, mock_extract, api_client, django_user_model):
+    def test_upload_pdf_success(
+        self, mock_task, mock_extract, api_client, django_user_model
+    ):
         # Configuration des mocks
         mock_extract.return_value = "Ceci est un texte de CV extrait avec succès."
 
-        user = django_user_model.objects.create_user(username="uploader", password="pass123")
+        user = django_user_model.objects.create_user(
+            username="uploader", password="pass123"
+        )
         api_client.force_authenticate(user=user)
 
         fake_pdf = make_mock_pdf()
@@ -45,10 +49,14 @@ class TestAnalysisResponse:
     @pytest.mark.django_db
     @patch("resumes.views.extract_text")
     @patch("resumes.views.analyze_resume_task.delay")
-    def test_response_has_id_and_status(self, mock_task, mock_extract, api_client, django_user_model):
+    def test_response_has_id_and_status(
+        self, mock_task, mock_extract, api_client, django_user_model
+    ):
         mock_extract.return_value = "Texte simulé"
 
-        user = django_user_model.objects.create_user(username="scoreuser", password="pass")
+        user = django_user_model.objects.create_user(
+            username="scoreuser", password="pass"
+        )
         api_client.force_authenticate(user=user)
 
         resp = api_client.post(

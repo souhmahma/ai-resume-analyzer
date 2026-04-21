@@ -192,7 +192,9 @@ def send_analysis_complete_email(resume_id):
             score_emoji = "🎉"
             score_color = "#22c55e"
             score_label = "Excellent!"
-            score_msg = "Outstanding resume! You're well positioned for your job search."
+            score_msg = (
+                "Outstanding resume! You're well positioned for your job search."
+            )
             gradient = "linear-gradient(135deg,#22c55e,#16a34a)"
         elif score and score >= 70:
             score_emoji = "👍"
@@ -204,7 +206,9 @@ def send_analysis_complete_email(resume_id):
             score_emoji = "📈"
             score_color = "#f59e0b"
             score_label = "Average"
-            score_msg = "Room for improvement. Check our suggestions to boost your score."
+            score_msg = (
+                "Room for improvement. Check our suggestions to boost your score."
+            )
             gradient = "linear-gradient(135deg,#f59e0b,#ef4444)"
         else:
             score_emoji = "💪"

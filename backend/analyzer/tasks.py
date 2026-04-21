@@ -55,7 +55,9 @@ def analyze_resume_task(self, resume_id):
 
         #   send_analysis_complete_email.delay(resume_id)
 
-        logger.info(f"Analysis complete for resume #{resume_id} — score: {analysis_data['overall_score']}")
+        logger.info(
+            f"Analysis complete for resume #{resume_id} — score: {analysis_data['overall_score']}"
+        )
         return f"Resume #{resume_id} analyzed"
 
     except Resume.DoesNotExist:

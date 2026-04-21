@@ -23,7 +23,10 @@ class ResumeUploadView(APIView):
         job_title = request.data.get("job_title", "")
 
         if not file:
-            return Response({"error": True, "message": "No file provided."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"error": True, "message": "No file provided."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         try:
             file_type = validate_resume_file(file)
@@ -49,7 +52,10 @@ class ResumeUploadView(APIView):
             except ValueError as e:
                 resume.status = Resume.Status.FAILED
                 resume.save()
-                return Response({"error": True, "message": str(e)}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+                return Response(
+                    {"error": True, "message": str(e)},
+                    status=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                )
 
             return Response(
                 {
@@ -61,7 +67,9 @@ class ResumeUploadView(APIView):
             )
 
         except ValueError as e:
-            return Response({"error": True, "message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"error": True, "message": str(e)}, status=status.HTTP_400_BAD_REQUEST
+            )
         except Exception as e:
             logger.error(f"Upload error: {e}", exc_info=True)
             return Response(
@@ -75,7 +83,11 @@ class ResumeListView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return Resume.objects.filter(user=self.request.user).select_related("analysis").order_by("-created_at")
+        return (
+            Resume.objects.filter(user=self.request.user)
+            .select_related("analysis")
+            .order_by("-created_at")
+        )
 
 
 class ResumeDetailView(generics.RetrieveDestroyAPIView):
@@ -88,7 +100,9 @@ class ResumeDetailView(generics.RetrieveDestroyAPIView):
     def destroy(self, request, *args, **kwargs):
         resume = self.get_object()
         resume.delete()
-        return Response({"message": "Resume deleted successfully."}, status=status.HTTP_200_OK)
+        return Response(
+            {"message": "Resume deleted successfully."}, status=status.HTTP_200_OK
+        )
 
 
 class ResumeStatusView(APIView):

@@ -3,7 +3,9 @@ from resumes.models import Resume
 
 
 class ResumeAnalysis(models.Model):
-    resume = models.OneToOneField(Resume, on_delete=models.CASCADE, related_name="analysis")
+    resume = models.OneToOneField(
+        Resume, on_delete=models.CASCADE, related_name="analysis"
+    )
     overall_score = models.PositiveIntegerField(default=0)
 
     # Section scores

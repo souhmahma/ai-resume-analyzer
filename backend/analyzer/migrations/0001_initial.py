@@ -16,7 +16,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="ResumeAnalysis",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 ("overall_score", models.PositiveIntegerField(default=0)),
                 ("content_score", models.PositiveIntegerField(default=0)),
                 ("structure_score", models.PositiveIntegerField(default=0)),
@@ -37,7 +45,9 @@ class Migration(migrations.Migration):
                 (
                     "resume",
                     models.OneToOneField(
-                        on_delete=django.db.models.deletion.CASCADE, related_name="analysis", to="resumes.resume"
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="analysis",
+                        to="resumes.resume",
                     ),
                 ),
             ],
