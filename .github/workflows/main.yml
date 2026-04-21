@@ -1,4 +1,4 @@
-name: AI Resume Analyzer — CI/CD
+name: Marketplace Chat — CI/CD
 
 on:
   push:
@@ -8,15 +8,18 @@ on:
 
 env:
   PYTHON_VERSION: "3.11"
-  # Variables pour éviter les erreurs "UndefinedValueError"
   SECRET_KEY: "ci-test-key-static-12345"
-  DATABASE_URL: "sqlite:///:memory:"
+  STRIPE_SECRET_KEY: "sk_test_dummy"
+  STRIPE_WEBHOOK_SECRET: "whsec_dummy"
   REDIS_URL: "redis://localhost:6379/0"
-  GEMINI_API_KEY: "dummy-key-for-ci"
+  EMAIL_HOST: "smtp.gmail.com"
+  EMAIL_PORT: "587"
+  EMAIL_HOST_USER: "test@gmail.com"
+  EMAIL_HOST_PASSWORD: "password"
   DEBUG: "True"
 
 jobs:
-  # ─── JOB 1: LINTING (Vérifie la qualité du code) ──────────────────────────
+  # ─── JOB 1: LINTING ───────────────────────────────────────────────────────
   lint:
     name: Lint & Format Check
     runs-on: ubuntu-latest
@@ -28,17 +31,18 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
-      - name: Cache pip
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements*.txt') }}
-
       - name: Install linters
         run: pip install flake8 black isort
 
+      - name: Run isort check
+        run: isort --check-only backend/ tests/ --profile black
+
+      - name: Run black check
+        run: black --check backend/ tests/
+
       - name: Run flake8
-        run: flake8 . --max-line-length=119 --exclude=venv,migrations,__pycache__ --ignore=E501,F401,F402,F541,F841,E402
+        run: flake8 backend/ tests/ --max-line-length=119 --exclude=venv,migrations,__pycache__ --ignore=E501,F401,F402,F541,F841,E402
+
   # ─── JOB 2: TESTS PYTEST ──────────────────────────────────────────────────
   tests:
     name: Pytest Suite
@@ -54,12 +58,15 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          pip install -r backend/requirements.txt
           pip install pytest pytest-django pytest-cov
 
       - name: Run tests with coverage
+        
+        env:
+          PYTHONPATH: ${{ github.workspace }}/backend
         run: |
-          pytest --cov=. --cov-report=xml
+          pytest tests/ --cov=backend --cov-report=xml
 
   # ─── JOB 3: SECURITY SCAN ────────────────────────────────────────────────
   security:
@@ -71,9 +78,7 @@ jobs:
       - name: Install bandit
         run: pip install bandit
       - name: Run bandit
-        # Analyse les failles de sécurité dans le code Python
-        run: bandit -r . --exclude ./venv,./tests -s B105,B110
-
+        run: bandit -r backend/ -s B105,B110
 
   # ─── JOB 4: DEPLOY NOTIFICATION ──────────────────────────────────────────
   deploy:
@@ -83,4 +88,4 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
       - name: Success message
-        run: echo "🚀 Tous les checks ont réussi. Prêt pour le déploiement sur Railway !"
+        run: echo "🚀 Tests passés avec succès pour le dossier externe /tests !"
