@@ -3,8 +3,9 @@ Unit tests — ai-resume-analyzer backend (Django REST Framework)
 Tests models, scoring logic, and utility functions.
 """
 
+from unittest.mock import MagicMock, patch
+
 import pytest
-from unittest.mock import patch, MagicMock
 
 
 # ─── Model / Scoring Logic Tests ─────────────────────────────────────────────

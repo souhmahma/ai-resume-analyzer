@@ -1,13 +1,15 @@
-from rest_framework import generics, permissions, status
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.parsers import MultiPartParser, FormParser
-from django.shortcuts import get_object_or_404
-from .models import Resume
-from .serializers import ResumeUploadSerializer, ResumeSerializer, ResumeListSerializer
-from .utils import extract_text, validate_resume_file
-from analyzer.tasks import analyze_resume_task
 import logging
+
+from analyzer.tasks import analyze_resume_task
+from django.shortcuts import get_object_or_404
+from rest_framework import generics, permissions, status
+from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from .models import Resume
+from .serializers import ResumeListSerializer, ResumeSerializer, ResumeUploadSerializer
+from .utils import extract_text, validate_resume_file
 
 logger = logging.getLogger(__name__)
 

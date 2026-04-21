@@ -1,6 +1,7 @@
-import pdfplumber
-import docx
 import logging
+
+import docx
+import pdfplumber
 
 logger = logging.getLogger(__name__)
 

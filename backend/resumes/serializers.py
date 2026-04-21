@@ -1,4 +1,5 @@
 from rest_framework import serializers
+
 from .models import Resume
 from .utils import validate_resume_file
 

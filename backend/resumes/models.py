@@ -1,7 +1,8 @@
-from django.db import models
-from accounts.models import User
-import uuid
 import os
+import uuid
+
+from accounts.models import User
+from django.db import models
 
 
 def resume_upload_path(instance, filename):

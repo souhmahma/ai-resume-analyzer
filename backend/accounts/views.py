@@ -1,10 +1,11 @@
-from rest_framework import generics, permissions, status
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.parsers import MultiPartParser, FormParser
-from .serializers import RegisterSerializer, UserSerializer, ChangePasswordSerializer
-from .models import User
 from accounts.tasks import send_welcome_email
+from rest_framework import generics, permissions, status
+from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from .models import User
+from .serializers import ChangePasswordSerializer, RegisterSerializer, UserSerializer
 
 
 class RegisterView(generics.CreateAPIView):

@@ -1,9 +1,10 @@
-from google import genai
-from google.genai import types
-from django.conf import settings
 import json
 import logging
 import re
+
+from django.conf import settings
+from google import genai
+from google.genai import types
 
 logger = logging.getLogger(__name__)
 

@@ -1,12 +1,14 @@
-from rest_framework import permissions, status
-from rest_framework.views import APIView
-from rest_framework.response import Response
+import logging
+
 from django.shortcuts import get_object_or_404
+from rest_framework import permissions, status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from resumes.models import Resume
+
 from .models import ResumeAnalysis
 from .serializers import AnalysisSerializer
 from .tasks import generate_cover_letter_task, generate_interview_questions_task
-import logging
 
 logger = logging.getLogger(__name__)
 
