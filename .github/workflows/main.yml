@@ -112,4 +112,4 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
       - name: Success message
-        run: echo "Tout est prêt. Images Docker validées et prêtes pour le déploiement."
+        run: echo "Everything is ready. Docker images validated and ready for deployment."
