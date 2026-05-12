@@ -23,3 +23,15 @@ services:
       - "80:80"
     depends_on:
       - backend
+
+  worker:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    command: celery -A config worker --loglevel=info
+    environment:
+      - REDIS_URL=${REDIS_URL}
+      - DATABASE_URL=${DATABASE_URL}
+      - CELERY_TASK_ALWAYS_EAGER=${CELERY_TASK_ALWAYS_EAGER}
+    depends_on:
+      - backend
