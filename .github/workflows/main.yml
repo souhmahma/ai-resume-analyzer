@@ -80,12 +80,36 @@ jobs:
       - name: Run bandit
         run: bandit -r backend/ -s B105,B110
 
-  # ─── JOB 4: DEPLOY NOTIFICATION ──────────────────────────────────────────
+# ─── Docker Build ───────────────────────────────────────────
+  docker-build:
+    name: Docker Compose Check
+    runs-on: ubuntu-latest
+    needs: [tests, security]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build and Start Services
+        run: |
+          docker compose build
+          docker compose up -d
+
+      - name: Health Check
+        run: |
+          sleep 15
+          # Test du Backend
+          curl -f http://localhost:8000/ || (docker compose logs backend && exit 1)
+          # Test du Frontend
+          curl -f http://localhost:80/ || (docker compose logs frontend && exit 1)
+
+      - name: Shutdown
+        run: docker compose down
+
+  # ─── MODIFICATION DU JOB DEPLOY ──────────────────────────────────────────
   deploy:
     name: Deploy Notification
     runs-on: ubuntu-latest
-    needs: [tests, security]
+    needs: [docker-build] 
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
       - name: Success message
-        run: echo "🚀 Tests passés avec succès. DATABASE_URL est bien configurée !"
+        run: echo "Tout est prêt. Images Docker validées et prêtes pour le déploiement."
