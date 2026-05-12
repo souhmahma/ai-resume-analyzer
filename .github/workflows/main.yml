@@ -43,7 +43,7 @@ jobs:
 
   # ─── JOB 2: TESTS PYTEST ──────────────────────────────────────────────────
   tests:
-    name: Pytest Suite
+    name: Tests Backend & Frontend
     runs-on: ubuntu-latest
     needs: lint
     steps:
